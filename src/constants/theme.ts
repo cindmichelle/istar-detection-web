@@ -13,15 +13,27 @@ const RED = '#FF0D0D';
 const theme = {
   colors: {
     text: {
+      primary: BLUE,
       link: BLUE,
       error: RED,
+      light: WHITE,
+    },
+    button: {
+      primary: LIGHT_BLUE,
     },
     border: { primary: BLUE, error: RED },
+    misc: {
+      background: WHITE,
+      shadow: BLACK,
+      loadingIndicator: BLUE,
+    },
   },
   fonts: {
     sizes: {
       default: 12,
+      medium: 16,
       small: 10,
+      header: 32,
     },
   },
 };

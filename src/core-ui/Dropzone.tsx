@@ -46,8 +46,8 @@ export default function Dropzone(props: Props) {
     maxFileSize = 10000000,
     type = 'image',
     imageSize = {
-      height: 300,
-      width: 300,
+      height: 4032,
+      width: 4032,
     },
     ...dropzoneProps
   } = props;
@@ -106,7 +106,10 @@ export default function Dropzone(props: Props) {
                 source={{ uri: newSource.uri }}
                 style={[
                   styles.preview,
-                  { height: imageSize.height, width: imageSize.width },
+                  {
+                    height: 400,
+                    width: 600,
+                  },
                 ]}
                 resizeMode="contain"
               />
@@ -197,7 +200,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4,
     borderStyle: 'solid',
-    borderWidth: 1,
+    borderWidth: 2,
     cursor: 'pointer',
     display: 'flex',
     flexDirection: 'column',
