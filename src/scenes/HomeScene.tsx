@@ -1,15 +1,21 @@
-import React, { useState, useCallback } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import React, { useState, useCallback, useEffect } from 'react';
+import { View, Text, StyleSheet, ActivityIndicator, Image } from 'react-native';
 
 import Dropzone, { FileWithPreview } from '../core-ui/Dropzone';
 import { colors, fonts } from '../constants/theme';
 import { Button } from '../core-ui';
 
-type Props = {};
+type Navigation = 'Upload' | 'Result';
+type UploadResponse = {
+  urlInputs: '';
+  urlOutputs: '';
+};
 
-export default function HomeScene(props: Props) {
+export default function HomeScene() {
   let [source, setSource] = useState<FileWithPreview | null>(null);
   let [isLoading, setIsLoading] = useState(false);
+  let [navigation, setNavigation] = useState<Navigation>('Upload');
+  let [response, setResponse] = useState<UploadResponse | null>(null);
 
   let onSubmit = async () => {
     try {
@@ -26,28 +32,59 @@ export default function HomeScene(props: Props) {
 
       let result = await response.json();
       setIsLoading(false);
-      console.log('response data', result);
+      setResponse(result);
+      setNavigation('Result');
     } catch (err) {
       throw new Error(err);
     }
   };
 
-  return isLoading ? (
-    <View style={styles.loadingContainer}>
-      <ActivityIndicator color={colors.misc.loadingIndicator} />
-    </View>
-  ) : (
+  let navigateToUpload = useCallback(() => setNavigation('Upload'), []);
+
+  useEffect(() => {
+    if (navigation === 'Upload') {
+      setResponse(null);
+      setSource(null);
+    }
+  }, [navigation]);
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator color={colors.misc.loadingIndicator} size="large" />
+        <Text style={[styles.text, styles.loadingText]}>
+          Detecting Object...
+        </Text>
+      </View>
+    );
+  }
+
+  return (
     <View style={styles.container}>
-      <Text style={styles.header}>Upload Files</Text>
+      <Text style={styles.header}>
+        {navigation === 'Upload' ? 'Upload Files' : 'Detection Result :'}
+      </Text>
       <View style={styles.contentWrapper}>
         <View style={styles.leftContainer}>
-          <Dropzone
-            bottomNote="** File must be in .jpg, .png, .jpeg format"
-            type="image"
-            containerStyle={{ width: '100%', height: 400 }}
-            source={source}
-            getPreview={setSource}
-          />
+          {navigation === 'Upload' ? (
+            <Dropzone
+              bottomNote="** File must be in .jpg, .png, .jpeg format"
+              type="image"
+              containerStyle={{ width: '100%', height: 400 }}
+              source={source}
+              getPreview={setSource}
+            />
+          ) : (
+            <Image
+              source={{ uri: response?.urlOutputs }}
+              style={{
+                width: '100%',
+                height: 400,
+                borderWidth: 2,
+                borderColor: colors.border.primary,
+              }}
+            />
+          )}
         </View>
         <View style={styles.rightContainer}>
           <Text
@@ -55,9 +92,23 @@ export default function HomeScene(props: Props) {
             numberOfLines={2}
             ellipsizeMode="middle"
           >
-            {source?.file.name || 'No Files Uploaded.'}
+            {source?.file.name || 'No Files Attached.'}
           </Text>
-          <Button title="Upload" style={styles.uploadBtn} onPress={onSubmit} />
+          {navigation === 'Upload' ? (
+            <Button
+              mode="secondary"
+              title="Upload"
+              style={styles.uploadBtn}
+              onPress={onSubmit}
+              disabled={!source}
+            />
+          ) : (
+            <Button
+              title="Detect more Istar Object"
+              style={styles.resultBtn}
+              onPress={navigateToUpload}
+            />
+          )}
         </View>
       </View>
     </View>
@@ -100,5 +151,14 @@ const styles = StyleSheet.create({
   uploadBtn: {
     width: '70%',
   },
+  resultBtn: {
+    height: 50,
+  },
   loadingContainer: { justifyContent: 'center', alignItems: 'center', flex: 1 },
+  loadingText: {
+    textAlign: 'center',
+    color: colors.text.primary,
+    fontSize: fonts.sizes.xLarge,
+    marginTop: 20,
+  },
 });

@@ -116,11 +116,17 @@ export default function Dropzone(props: Props) {
             );
           } else {
             content = (
-              <Image
-                source={uploadPlaceholder}
-                style={[styles.preview, { height: 100, width: 100 }]}
-                resizeMode="contain"
-              />
+              <>
+                <Image
+                  source={uploadPlaceholder}
+                  style={[styles.preview, { height: 100, width: 100 }]}
+                  resizeMode="contain"
+                />
+                <Text style={styles.text}>
+                  Drag and Drop or <Text style={styles.browse}>browse</Text>{' '}
+                  files to upload.
+                </Text>
+              </>
             );
           }
           return withBorder ? (
@@ -214,4 +220,10 @@ const styles = StyleSheet.create({
     fontSize: fonts.sizes.small,
     fontWeight: '700',
   },
+  text: {
+    fontFamily: 'Montserrat',
+    color: colors.text.default,
+    fontWeight: '600',
+  },
+  browse: { color: colors.text.link, textDecorationLine: 'underline' },
 });

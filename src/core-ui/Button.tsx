@@ -10,12 +10,25 @@ import { colors } from '../constants/theme';
 
 type Props = TouchableOpacityProps & {
   title?: string;
+  mode?: 'primary' | 'secondary';
 };
 
 export default function Button(props: Props) {
-  let { title, style, ...otherProps } = props;
+  let { title, mode = 'primary', style, disabled, ...otherProps } = props;
+
+  let buttonModeStyle = {
+    backgroundColor: disabled
+      ? colors.button.disabled
+      : mode === 'primary'
+      ? colors.button.primary
+      : colors.button.secondary,
+  };
   return (
-    <TouchableOpacity style={[styles.container, style]} {...otherProps}>
+    <TouchableOpacity
+      disabled={disabled}
+      style={[styles.container, buttonModeStyle, style]}
+      {...otherProps}
+    >
       <Text style={styles.textBtn}>{title}</Text>
     </TouchableOpacity>
   );
@@ -23,8 +36,8 @@ export default function Button(props: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.button.primary,
     alignItems: 'center',
+    justifyContent: 'center',
     shadowColor: colors.misc.shadow,
     shadowOffset: {
       width: 0,
