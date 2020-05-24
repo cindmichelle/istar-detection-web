@@ -1,0 +1,22 @@
+{
+  "files": {
+    "app.js": "/istar/static/js/app.13cf12f4.chunk.js",
+    "app.js.map": "/istar/static/js/app.13cf12f4.chunk.js.map",
+    "runtime~app.js": "/istar/static/js/runtime~app.5624c475.js",
+    "runtime~app.js.map": "/istar/static/js/runtime~app.5624c475.js.map",
+    "static/js/2.0a6b262c.chunk.js": "/istar/static/js/2.0a6b262c.chunk.js",
+    "static/js/2.0a6b262c.chunk.js.map": "/istar/static/js/2.0a6b262c.chunk.js.map",
+    "favicon-16.png": "/istar/favicon-16.png",
+    "favicon-32.png": "/istar/favicon-32.png",
+    "favicon.ico": "/istar/favicon.ico",
+    "index.html": "/istar/index.html",
+    "manifest.json": "/istar/manifest.json",
+    "serve.json": "/istar/serve.json",
+    "static/media/upload_placeholder.png": "/istar/static/media/upload_placeholder.35cb9586.png"
+  },
+  "entrypoints": [
+    "static/js/runtime~app.5624c475.js",
+    "static/js/2.0a6b262c.chunk.js",
+    "static/js/app.13cf12f4.chunk.js"
+  ]
+}
